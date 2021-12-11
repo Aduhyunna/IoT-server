@@ -1,26 +1,17 @@
-const express = require('express');
-const app = express();
-const http = require('http');
-const server = http.createServer(app);
+const app = require("express")();
+const httpServer = require("http").createServer(app);
+const options = {
+  cors: {
+    origin: "*",
+  },
+};
+const io = require("socket.io")(httpServer, options);
 
-//socket io
-const express = require("express");
-const socket = require("socket.io");
-
-// App setup
 const PORT = 5000;
-const app = express();
-const server = app.listen(PORT, function () {
-  console.log(`Listening on port ${PORT}`);
-  console.log(`http://localhost:${PORT}`);
+httpServer.listen(PORT, () => {
+  console.log(`listening on *:${PORT}`);
 });
 
-// Static files
-app.use(express.static("public"));
-
-// Socket setup
-const io = socket(server);
-
-io.on("connection", function (socket) {
-  console.log("Made socket connection");
+io.on("connection", (socket) => {
+  console.log("new client connected");
 });
